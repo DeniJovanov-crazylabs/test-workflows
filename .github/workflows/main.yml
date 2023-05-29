@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to build from branch
+        options:
+          - dev
+          - staging
+          - feature
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Print environment
+        run: |
+          echo ${{ github.event.inputs.environment == 'feature' && ${GITHUB_REF#refs/*/} || github.event.inputs.environment }}
